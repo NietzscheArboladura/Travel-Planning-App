@@ -16,18 +16,47 @@ if __name__ == "__main__":
     choice = -1
     id = 0
     while (choice != 0):
-        choice = int(input('What would you like to do? 1.) Register a student 2.) View all registered students 3.) Assign a section to a student 4.) Un-register a student 0.) Exit\n'))
+        choice = int(input('\n1.) User\n2.) Destination\n3.) Transportaion\n4.) Schedule\n5. Payment\n0.) Exit\nEnter choice[0-5]: '))
         
-        if choice == ProcessType.REGISTER_STUDENT.value:
+        if (choice == 1):
+            # User
             id = id + 1
             name = input('Enter student name: ')
             student = Student(id, name)
             school_management.register_student(student)
             
-        elif choice == ProcessType.VIEW_STUDENTS.value:
+        elif (choice == 2):
+            # Destination
+            print('=== View registered students ===')
             print(school_management.registered_students())
             
-        elif choice == ProcessType.ASSIGN_STUDENT_TO_SECTION.value:
+        elif (choice == 3):
+            # Transportation
+            choice = int(input('\n=== Transportation ===\n1.) Add transportation type\n2.) View all transportation type\n3.) Delete a transportaion type\n0.) Exit\nEnter choice[0-3]: '))
+                
+            if (choice == 1):
+                # Add transportation
+                id = id + 1
+                name = input('Enter Transportation type: ')
+                student = Student(id, name)
+                school_management.register_student(student)
+
+            elif (choice == 2):
+                # View transportaion type
+                print('=== View registered students ===')
+                print(school_management.registered_students())
+
+            elif (choice == 3):
+
+                print('\n=== Delete ===\n')
+               
+            elif (choice == 0):
+                print('Exiting...')
+                break
+
+
+        elif (choice == 4):
+
             try:
                 
                 if len(school_management.registered_students()) == 0:
@@ -43,7 +72,8 @@ if __name__ == "__main__":
             except Exception as e:
                 print(e)
         
-        elif choice == ProcessType.UNREGISTER_STUDENT.value:
+        elif (choice == 5):
+            # Schedule
             try:
                 if len(school_management.registered_students()) == 0:
                     raise Exception('No students registered')
@@ -54,6 +84,6 @@ if __name__ == "__main__":
             except Exception as e:
                 print(e)
         
-        elif choice == ProcessType.EXIT.value:
+        elif (choice == 6):
             print('Exiting...')
             break
