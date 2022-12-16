@@ -16,7 +16,7 @@ if __name__ == "__main__":
     choice = -1
     id = 0
     while (choice != 0):
-        choice = int(input('\n1.) User\n2.) Transportaion\n3.) Schedule\n0.) Exit\nEnter choice[0-3]: '))
+        choice = int(input('\n=== Travel Planning Plan ===\n1.) User\n2.) Transportaion\n3.) Schedule\n0.) Exit\nEnter choice[0-3]: '))
         
         if (choice == 1):
             # User
