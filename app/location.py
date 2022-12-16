@@ -1,6 +1,6 @@
 from enum import Enum
 
-class SectionEnum(Enum):
+class LocationEnum(Enum):
     Cash = 1
     Credit = 2
 

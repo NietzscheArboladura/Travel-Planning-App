@@ -1,17 +1,17 @@
-from students import Student
+from users import Users
 from interfaces import *
-from schoolmanagement import *
-from sections import *
+from travelmanagement import *
+from location import *
 
 class ProcessType(Enum):
     EXIT = 0
-    REGISTER_STUDENT = 1
-    VIEW_STUDENTS = 2
-    ASSIGN_STUDENT_TO_SECTION = 3
-    UNREGISTER_STUDENT = 4
+    REGISTER_USER = 1
+    VIEW_USER = 2
+    ASSIGN_USER_TO_LOCATION = 3
+    UNREGISTER_USER = 4
     
 if __name__ == "__main__":
-    school_management = SchoolManagement()
+    travel_management = TravelManagement()
     
     choice = -1
     id = 0
@@ -26,14 +26,14 @@ if __name__ == "__main__":
                 # Add transportation
                 id = id + 1
                 name = input('\nEnter New User: ')
-                student = Student(id, name)
-                school_management.register_student(student)
+                user = Users(id, name)
+                travel_management.register_user(user)
                 print('\nTransportation type successfuly added!!!\n')
 
             elif (choice == 2):
                 # View transportaion type
                 print('\n=== View all Users ===')
-                print(school_management.registered_students())
+                print(travel_management.registered_users())
 
             elif (choice == 3):
 
@@ -41,16 +41,16 @@ if __name__ == "__main__":
 
                 try:
                     
-                    if len(school_management.registered_students()) == 0:
-                        raise Exception('No students registered')
-                    students = school_management.students
-                    select = int(input(f'Select User: {school_management.registered_students()}\n'))
-                    selected_student = students[select-1]
-                    section = int(input('Select a Destination: 3.) London 4.) Philippines: '))
-                    if section == SectionEnum.London.value:
-                        selected_student.set_section(SectionEnum.London)
-                    elif section == SectionEnum.Philippines.value:
-                        selected_student.set_section(SectionEnum.Philippines)
+                    if len(travel_management.registered_users()) == 0:
+                        raise Exception('No users registered')
+                    users = travel_management.users
+                    select = int(input(f'Select User: {travel_management.registered_users()}\n'))
+                    selected_user = users[select-1]
+                    location = int(input('Select a Destination: 3.) London 4.) Philippines: '))
+                    if location == LocationEnum.London.value:
+                        selected_user.set_section(LocationEnum.London)
+                    elif location == LocationEnum.Philippines.value:
+                        selected_user.set_section(LocationEnum.Philippines)
                     print('\nDestination successfuly added!!!\n')
                 except Exception as e:
                     print(e)
@@ -59,12 +59,12 @@ if __name__ == "__main__":
             elif (choice == 4):
 
                 try:
-                    if len(school_management.registered_students()) == 0:
+                    if len(travel_management.registered_users()) == 0:
                         raise Exception('No User registered')
-                    select = int(input(f'Select User: {school_management.registered_students()}\n'))
-                    selected_student = students[select-1]
+                    select = int(input(f'Select User: {travel_management.registered_users()}\n'))
+                    selected_user = users[select-1]
                     
-                    school_management.unregister_student(selected_student)
+                    travel_management.unregister_user(selected_user)
                     print('\nUser and Destination successfuly deleted!!!\n')
                 except Exception as e:
                     print(e)
@@ -82,14 +82,14 @@ if __name__ == "__main__":
                 # Add transportation
                 id = id + 1
                 name = input('\nEnter Transportation type: ')
-                student = Student(id, name)
-                school_management.register_student(student)
+                user = Users(id, name)
+                travel_management.register_user(user)
                 print('\nTransportation type successfuly added!!!\n')
 
             elif (choice == 2):
                 # View transportaion type
                 print('\n=== View registered tranportation ===')
-                print(school_management.registered_students())
+                print(travel_management.registered_users())
 
             elif (choice == 3):
 
@@ -97,16 +97,16 @@ if __name__ == "__main__":
 
                 try:
                     
-                    if len(school_management.registered_students()) == 0:
+                    if len(travel_management.registered_users()) == 0:
                         raise Exception('No Transportation registered')
-                    students = school_management.students
-                    select = int(input(f'Select student: {school_management.registered_students()}\n'))
-                    selected_student = students[select-1]
-                    section = int(input('Select mode of payment: 1.) Cash 2.) Credit: '))
-                    if section == SectionEnum.Cash.value:
-                        selected_student.set_section(SectionEnum.Cash)
-                    elif section == SectionEnum.Credit.value:
-                        selected_student.set_section(SectionEnum.Credit)
+                    users = travel_management.users
+                    select = int(input(f'Select user: {travel_management.registered_users()}\n'))
+                    selected_user = users[select-1]
+                    location = int(input('Select mode of payment: 1.) Cash 2.) Credit: '))
+                    if location == LocationEnum.Cash.value:
+                        selected_user.set_section(LocationEnum.Cash)
+                    elif location == LocationEnum.Credit.value:
+                        selected_user.set_section(LocationEnum.Credit)
                     print('\nMode of payment successfuly added!!!\n')
                 except Exception as e:
                     print(e)
@@ -115,12 +115,12 @@ if __name__ == "__main__":
             elif (choice == 4):
 
                 try:
-                    if len(school_management.registered_students()) == 0:
-                        raise Exception('No students registered')
-                    select = int(input(f'Select student: {school_management.registered_students()}\n'))
-                    selected_student = students[select-1]
+                    if len(travel_management.registered_users()) == 0:
+                        raise Exception('No users registered')
+                    select = int(input(f'Select user: {travel_management.registered_users()}\n'))
+                    selected_user = users[select-1]
                     
-                    school_management.unregister_student(selected_student)
+                    travel_management.unregister_user(selected_user)
                     print('\nTranspor and Mode of payment successfuly deleted!!!\n')
                 except Exception as e:
                     print(e)
@@ -140,14 +140,14 @@ if __name__ == "__main__":
                 # Add transportation
                 id = id + 1
                 name = input('\nEnter preferred time: ')
-                student = Student(id, name)
-                school_management.register_student(student)
+                user = Users(id, name)
+                travel_management.register_user(user)
                 print('\Schedule successfuly added!!!\n')
 
             elif (choice == 2):
                 # View transportaion type
                 print('\n=== View all schedule ===')
-                print(school_management.registered_students())
+                print(travel_management.registered_users())
 
             elif (choice == 3):
 
@@ -155,16 +155,16 @@ if __name__ == "__main__":
 
                 try:
                     
-                    if len(school_management.registered_students()) == 0:
+                    if len(travel_management.registered_users()) == 0:
                         raise Exception('No Schedule registered')
-                    students = school_management.students
-                    select = int(input(f'Select Schedule: {school_management.registered_students()}\n'))
-                    selected_student = students[select-1]
-                    section = int(input('Select choice: 5.) Morning 6.) Evening: '))
-                    if section == SectionEnum.AM.value:
-                        selected_student.set_section(SectionEnum.AM)
-                    elif section == SectionEnum.PM.value:
-                        selected_student.set_section(SectionEnum.PM)
+                    users = travel_management.users
+                    select = int(input(f'Select Schedule: {travel_management.registered_users()}\n'))
+                    selected_user = users[select-1]
+                    location = int(input('Select choice: 5.) Morning 6.) Evening: '))
+                    if location == LocationEnum.AM.value:
+                        selected_user.set_section(LocationEnum.AM)
+                    elif location == LocationEnum.PM.value:
+                        selected_user.set_section(LocationEnum.PM)
                     print('\nSchedule successfuly added!!!\n')
                 except Exception as e:
                     print(e)
@@ -173,12 +173,12 @@ if __name__ == "__main__":
             elif (choice == 4):
 
                 try:
-                    if len(school_management.registered_students()) == 0:
+                    if len(travel_management.registered_users()) == 0:
                         raise Exception('No Schedule registered')
-                    select = int(input(f'Select Schedule: {school_management.registered_students()}\n'))
-                    selected_student = students[select-1]
+                    select = int(input(f'Select Schedule: {travel_management.registered_users()}\n'))
+                    selected_user = users[select-1]
                     
-                    school_management.unregister_student(selected_student)
+                    travel_management.unregister_user(selected_user)
                     print('\nnSchedule successfuly deleted!!!\n')
                 except Exception as e:
                     print(e)
