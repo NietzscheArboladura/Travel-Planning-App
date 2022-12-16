@@ -28,7 +28,7 @@ if __name__ == "__main__":
                 name = input('\nEnter New User: ')
                 user = Users(id, name)
                 travel_management.register_user(user)
-                print('\nTransportation type successfuly added!!!\n')
+                print('\User successfuly added!!!\n')
 
             elif (choice == 2):
                 # View transportaion type
