@@ -14,9 +14,9 @@ class TravelManagement(IRegistrar, ITravelRecords, ITraveling):
     
     def assign_user_to_location(self, user: Users, location: LocationEnum) -> None:
         if location == LocationEnum.G1:
-            user.set_section(LocationEnum.G1)
+            user.set_location(LocationEnum.G1)
         elif location == LocationEnum.G2:
-            user.set_section(LocationEnum.G2)
+            user.set_location(LocationEnum.G2)
         
     def registered_users(self) -> str:
         

@@ -48,9 +48,9 @@ if __name__ == "__main__":
                     selected_user = users[select-1]
                     location = int(input('Select a Destination: 3.) London 4.) Philippines: '))
                     if location == LocationEnum.London.value:
-                        selected_user.set_section(LocationEnum.London)
+                        selected_user.set_location(LocationEnum.London)
                     elif location == LocationEnum.Philippines.value:
-                        selected_user.set_section(LocationEnum.Philippines)
+                        selected_user.set_location(LocationEnum.Philippines)
                     print('\nDestination successfuly added!!!\n')
                 except Exception as e:
                     print(e)
@@ -104,9 +104,9 @@ if __name__ == "__main__":
                     selected_user = users[select-1]
                     location = int(input('Select mode of payment: 1.) Cash 2.) Credit: '))
                     if location == LocationEnum.Cash.value:
-                        selected_user.set_section(LocationEnum.Cash)
+                        selected_user.set_location(LocationEnum.Cash)
                     elif location == LocationEnum.Credit.value:
-                        selected_user.set_section(LocationEnum.Credit)
+                        selected_user.set_location(LocationEnum.Credit)
                     print('\nMode of payment successfuly added!!!\n')
                 except Exception as e:
                     print(e)
@@ -162,9 +162,9 @@ if __name__ == "__main__":
                     selected_user = users[select-1]
                     location = int(input('Select choice: 5.) Morning 6.) Evening: '))
                     if location == LocationEnum.AM.value:
-                        selected_user.set_section(LocationEnum.AM)
+                        selected_user.set_location(LocationEnum.AM)
                     elif location == LocationEnum.PM.value:
-                        selected_user.set_section(LocationEnum.PM)
+                        selected_user.set_location(LocationEnum.PM)
                     print('\nSchedule successfuly added!!!\n')
                 except Exception as e:
                     print(e)
