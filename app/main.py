@@ -1,193 +1,170 @@
-from users import Users
-from interfaces import *
-from travelmanagement import *
-from location import *
+from __future__ import annotations
+from abc import ABC, abstractmethod
+from typing import List
+from Guest import *
+from Dates import *
+from Location import *
+from Transportation import *
+from Budget import *
 
-class ProcessType(Enum):
-    EXIT = 0
-    REGISTER_USER = 1
-    VIEW_USER = 2
-    ASSIGN_USER_TO_LOCATION = 3
-    UNREGISTER_USER = 4
+class TravelPlan(Guest, DatePlan, Location, Transportation, MainBudget):
+
+    travelPlanDict = {}
+
+    def viewTravelPlan(self, travelPlanID):
+        try:
+            if(len(self.travelPlanDict) == 0 or self.travelPlanDict[travelPlanID]["Status"] == False):
+                print("There is Currently no Travel Plan")
+            else:
+                print("Well Done! This is Travel Plan ID["+ str(travelPlanID) +"]:")
+                print("Travel Plan Title: " + self.travelPlanDict[travelPlanID]["Title"])
+                
+                try:
+                    x = 0
+                    for obj in self.travelPlanDict[travelPlanID]["Guests"]:
+                        print("Guest ID."+ str(x) + " " + obj.fullName)
+                        x += 1
+                except:
+                    print("Unexpected Error in showing guests")
+
+                print("Departure Date: " + str(self.travelPlanDict[travelPlanID]["Departure Date"]))
+                print("Return Date: " + str(self.travelPlanDict[travelPlanID]["Return Date"]))
+                print("Location: " + self.travelPlanDict[travelPlanID]["Location"])
+                print("Transportation ID: " + self.travelPlanDict[travelPlanID]["Transportation ID"])
+                print("Vehicle: " + self.travelPlanDict[travelPlanID]["Vehicle"])
+                print("Passengers: " + str(self.travelPlanDict[travelPlanID]["Passengers"]))
+                print("Budget: " + str(self.travelPlanDict[travelPlanID]["Budget"]))
+                
+        except:
+            print("Travel Plan Incomplete!")
+
+    def clearTravelPlan(self):
+        try:
+            self.travelPlanDict.clear()
+            print("The Travel Plan has been Cleared")
+        except:
+            print("Unexpected Error, Travel Plan has not been Cleared")
     
+    def travelPlanMenu(self, travelPlanID):
+        travelPlanChoice = 7
+        while travelPlanChoice != 0:
+            print("Manage Travel Plan: "+ self.travelPlanDict[travelPlanID]["Title"])
+            print("What would you like to do? \n1.) Manage Guests \n2.) Manage Dates \n3.) Manage Location \n4.) Manage Transportation \n5.) Manage Budget \n6.) View Current Travel Plan \n0.) Return to Main Menu")
+            travelPlanChoice = int(input("Enter your choice here: "))
+
+            if(travelPlanChoice == 1):
+                try:
+                    self.guestMain()
+                except:
+                    print("Unexpected Error in Managing Guests")
+            elif(travelPlanChoice == 2):
+                try:
+                    self.dateMain()
+                    self.travelPlanDict[travelPlanID]["Departure Date"] = self.depDate
+                    self.travelPlanDict[travelPlanID]["Return Date"] = self.retDate
+                except:
+                    print("Unexpected Error in Managing Dates")
+            elif(travelPlanChoice == 3):
+                try:
+                    self.locationMenu()
+                    self.travelPlanDict[travelPlanID]["Location"] = self._locationList[travelPlanID]
+                except:
+                    print("Unexpected Error in Managing Location")
+            elif(travelPlanChoice == 4):
+                try:
+                    self.transportationMenu()
+                    self.travelPlanDict[travelPlanID]["Transportation ID"] = self.transpoID
+                    self.travelPlanDict[travelPlanID]["Vehicle"] = self.transpoVehicle
+                    self.travelPlanDict[travelPlanID]["Passengers"] = self.transpoPassengers
+                except:
+                    print("Unexpected Error in Managing Transportation")
+            elif(travelPlanChoice == 5):
+                try:
+                    self.budgetMain()
+                    self.travelPlanDict[travelPlanID]["Budget"] = self.TotalBudget
+                except:
+                    print("Unexpected Error in Managing Budget")
+            elif(travelPlanChoice == 6):
+                try:
+                    self.viewTravelPlan(travelPlanID)
+                except:
+                    print("Unexpected Error in Managing Budget")
+
+    
+    def viewTitles(self):
+        print("Current Travel Plans")
+        for x in range(len(self.travelPlanDict)):
+            if(self.travelPlanDict[x]["Status"] == True):
+                print("Travel Plan ID["+ str(x) +"]: "+ self.travelPlanDict[x]["Title"])
+
+    def removeTravelPlan(self, travelplanID):
+        try:
+            self.travelPlanDict.pop(travelplanID)
+            print("The Travel Plan has been Removed")
+        except:
+            print("Unexpected Error, Travel Plan has not been Removed")
+    
+    def softDeleteTravelPlan(self, travelplanID):
+        try:
+            self.travelPlanDict[travelplanID]["Status"] = False
+            print("The Travel Plan has been Removed")
+        except:
+            print("Unexpected Error, Travel Plan has not been Removed")
+    
+    def travelPlanMain(self):
+        numberOfTravelPlans = int(input("Hello! \nSo how many Travel Plans are you going to make today: "))
+
+        try:
+            print("Welcome! Time to Create a Travel Plan!")
+            for x in range(numberOfTravelPlans):
+                self.travelPlanDict[x] = {}
+
+                travelPlanName = input("Input the Title for Travel Plan ID["+ str(x) +"]: ")
+                self.travelPlanDict[x]["Title"] = travelPlanName
+                self.travelPlanDict[x]["Status"] = True
+                print("There are Currently no people going on the trip, time to add some people.")
+                self.travelPlanDict[x]["Guests"] = self.addGuest()
+
+            travelPlanMain = 5
+            while travelPlanMain > 0:
+                print("This is the Travel Plan Main Menu")
+                print("What would you like to do? \n1.) Manage a Travel Plan \n2.) View Travel Plans \n3.) Remove a Travel Plan \n0.) EXIT APPLICATION")
+                travelPlanMain = int(input("Enter your choice here: "))
+
+                if(travelPlanMain == 1):
+                    print("Select a Travel Plan to Manage:")
+                    self.viewTitles()
+                    tpChoice = int(input("Enter the Travel Plan ID here: "))
+                    self.travelPlanMenu(tpChoice)
+                    self.viewTravelPlan(tpChoice)
+                elif(travelPlanMain == 2):
+                    try:
+                        print("Select a Travel Plan to View:")
+                        self.viewTitles()
+                        tpChoice = int(input("Enter the Travel Plan ID here: "))
+                        self.viewTravelPlan(tpChoice)
+                    except:
+                        print("Unexpected Error in Viewing Travel Plan")
+                elif(travelPlanMain == 3):
+                    try:
+                        print("Select a Travel Plan to Remove:")
+                        self.viewTitles()
+                        tpChoice = int(input("Enter the Travel Plan ID here: "))
+                        self.softDeleteTravelPlan(tpChoice)
+                    except:
+                        print("Unexpected Error in clearing Travel Plan")
+            else:
+                print("Thank you!")
+                print(exit)
+
+        except:
+            print("Unexpected Error in creating Travel Plan")
+
+        
+
+
 if __name__ == "__main__":
-    travel_management = TravelManagement()
-    
-    choice = -1
-    id = 0
-    while (choice != 0):
-        choice = int(input('\n=== Travel Planning Plan ===\n1.) User\n2.) Transportaion\n3.) Schedule\n0.) Exit\nEnter choice[0-3]: '))
-        
-        if (choice == 1):
-            # User
-            choice = int(input('\n=== User ===\n1.) Add New User\n2.) View all Users \n3.) Add Destination that user wants to go\n4.) Delete a User and Destination\n0.) Exit\nEnter choice[0-4]: '))
-                
-            if (choice == 1):
-                # Add transportation
-                id = id + 1
-                name = input('\nEnter New User: ')
-                user = Users(id, name)
-                travel_management.register_user(user)
-                print('\User successfuly added!!!\n')
+    "MAIN METHOD"
+    travelPlanSystem = TravelPlan()
 
-            elif (choice == 2):
-                # View transportaion type
-                print('\n=== View all Users ===')
-                print(travel_management.registered_users())
-
-            elif (choice == 3):
-
-                print('\n=== Add Destination that user wants to go ===\n')
-
-                try:
-                    
-                    if len(travel_management.registered_users()) == 0:
-                        raise Exception('No users registered')
-                    users = travel_management.users
-                    select = int(input(f'Select User: {travel_management.registered_users()}\n'))
-                    selected_user = users[select-1]
-                    location = int(input('Select a Destination: 3.) London 4.) Philippines: '))
-                    if location == LocationEnum.London.value:
-                        selected_user.set_location(LocationEnum.London)
-                    elif location == LocationEnum.Philippines.value:
-                        selected_user.set_location(LocationEnum.Philippines)
-                    print('\nDestination successfuly added!!!\n')
-                except Exception as e:
-                    print(e)
-                    # 
-               
-            elif (choice == 4):
-
-                try:
-                    if len(travel_management.registered_users()) == 0:
-                        raise Exception('No User registered')
-                    select = int(input(f'Select User: {travel_management.registered_users()}\n'))
-                    selected_user = users[select-1]
-                    
-                    travel_management.unregister_user(selected_user)
-                    print('\nUser and Destination successfuly deleted!!!\n')
-                except Exception as e:
-                    print(e)
-                
-            elif (choice == 0):
-                print('Exiting...')
-                break
-
-
-        elif (choice == 2):
-            # Transportation
-            choice = int(input('\n=== Transportation ===\n1.) Add transportation type\n2.) View all transportation type\n3.) add mode of payment\n4.) Delete a transportaion type and mode of payment\n0.) Exit\nEnter choice[0-4]: '))
-                
-            if (choice == 1):
-                # Add transportation
-                id = id + 1
-                name = input('\nEnter Transportation type: ')
-                user = Users(id, name)
-                travel_management.register_user(user)
-                print('\nTransportation type successfuly added!!!\n')
-
-            elif (choice == 2):
-                # View transportaion type
-                print('\n=== View registered tranportation ===')
-                print(travel_management.registered_users())
-
-            elif (choice == 3):
-
-                print('\n=== Add mode of payment ===\n')
-
-                try:
-                    
-                    if len(travel_management.registered_users()) == 0:
-                        raise Exception('No Transportation registered')
-                    users = travel_management.users
-                    select = int(input(f'Select user: {travel_management.registered_users()}\n'))
-                    selected_user = users[select-1]
-                    location = int(input('Select mode of payment: 1.) Cash 2.) Credit: '))
-                    if location == LocationEnum.Cash.value:
-                        selected_user.set_location(LocationEnum.Cash)
-                    elif location == LocationEnum.Credit.value:
-                        selected_user.set_location(LocationEnum.Credit)
-                    print('\nMode of payment successfuly added!!!\n')
-                except Exception as e:
-                    print(e)
-                    # 
-               
-            elif (choice == 4):
-
-                try:
-                    if len(travel_management.registered_users()) == 0:
-                        raise Exception('No users registered')
-                    select = int(input(f'Select user: {travel_management.registered_users()}\n'))
-                    selected_user = users[select-1]
-                    
-                    travel_management.unregister_user(selected_user)
-                    print('\nTranspor and Mode of payment successfuly deleted!!!\n')
-                except Exception as e:
-                    print(e)
-                
-
-
-            elif (choice == 0):
-                print('Exiting...')
-                break
-
-        elif (choice == 3):
-            # Schedule
-
-            choice = int(input('\n=== Schedule ===\n1.) Add preferred schedule\n 2.) View all schedule \n3.) Morning or Evening\n4.) Delete a schedule \n0.) Exit\nEnter choice[0-4]: '))
-                
-            if (choice == 1):
-                # Add transportation
-                id = id + 1
-                name = input('\nEnter preferred time: ')
-                user = Users(id, name)
-                travel_management.register_user(user)
-                print('\Schedule successfuly added!!!\n')
-
-            elif (choice == 2):
-                # View transportaion type
-                print('\n=== View all schedule ===')
-                print(travel_management.registered_users())
-
-            elif (choice == 3):
-
-                print('\n===  Morning or Evening ===\n')
-
-                try:
-                    
-                    if len(travel_management.registered_users()) == 0:
-                        raise Exception('No Schedule registered')
-                    users = travel_management.users
-                    select = int(input(f'Select Schedule: {travel_management.registered_users()}\n'))
-                    selected_user = users[select-1]
-                    location = int(input('Select choice: 5.) Morning 6.) Evening: '))
-                    if location == LocationEnum.AM.value:
-                        selected_user.set_location(LocationEnum.AM)
-                    elif location == LocationEnum.PM.value:
-                        selected_user.set_location(LocationEnum.PM)
-                    print('\nSchedule successfuly added!!!\n')
-                except Exception as e:
-                    print(e)
-                    # 
-               
-            elif (choice == 4):
-
-                try:
-                    if len(travel_management.registered_users()) == 0:
-                        raise Exception('No Schedule registered')
-                    select = int(input(f'Select Schedule: {travel_management.registered_users()}\n'))
-                    selected_user = users[select-1]
-                    
-                    travel_management.unregister_user(selected_user)
-                    print('\nnSchedule successfuly deleted!!!\n')
-                except Exception as e:
-                    print(e)
-                
-
-            elif (choice == 0):
-                print('Exiting...')
-                break
-        
-        elif (choice == 0):
-            print('Exiting...')
-            break
+    travelPlanSystem.travelPlanMain()
