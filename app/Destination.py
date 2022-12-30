@@ -26,7 +26,7 @@ class City(ABC):
         for x in self._cityList:
             print(x)
 
-class Location(Country, City):
+class Destination(Country, City):
 
     _locationList = []
 
@@ -40,7 +40,7 @@ class Location(Country, City):
         self._cityList.append(cityForPlan)
         return cityForPlan
     
-    def location(self, countryInput, cityInput) -> bool:
+    def destination(self, countryInput, cityInput) -> bool:
         try:
             locationForPlan = self.getCountry(countryInput) + ", " + self.getCity(cityInput)
             self._locationList.append(locationForPlan)
@@ -49,30 +49,30 @@ class Location(Country, City):
             print("UNEXPECTED ERROR")
             return False
         
-    def viewLocations(self):
+    def viewDestination(self):
         for x in self._locationList:
             print("Location: " + x)
     
-    def locationMenu(self):
-        print("Hello and welcome to the Location Menu")
+    def destinationMenu(self):
+        print("***Location Menu***")
     
-        countryInput = input("Enter the Country for your visit: ")
+        countryInput = input("Country you want to visit: ")
         self.getCountry(countryInput)
-        print("THIS IS THE COUNTRY FOR YOUR STAY: ")
+        print("This is the country you'll be staying: ")
         self.viewCountries()
 
-        cityInput = input("Enter the City of that Country for your visit: ")
+        cityInput = input("City of that Country you want to visit: ")
         self.getCity(cityInput)
-        print("THIS IS THE CITY FOR YOUR STAY: ")
+        print("This is the city you'll be staying: ")
         self.viewCities()
 
-        self.location(countryInput, cityInput)
-        print("THIS IS THE LOCATION FOR YOUR STAY: ")
-        self.viewLocations()
+        self.destination(countryInput, cityInput)
+        print("This is the location of you visit: ")
+        self.viewDestination()
 
 if __name__ == "__main__":
     "MAIN METHOD TO TEST THE LOCATION CLASS"
 
-    locationSystem = Location()
+    locationSystem = Destination()
 
-    locationSystem.locationMenu()
+    locationSystem.destinationMenu()

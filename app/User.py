@@ -11,20 +11,20 @@ class Person(object):
         self.gender = gender
 
 
-class Guest:
+class User:
 
     _guestList = []
 
     listLength = 0
 
-    def addGuest(self):
+    def addUser(self):
         gList = []
-        print("Hello this is where you will be adding the Guests")
-        numberOfGuests = int(input("Enter the number of people joining the Travel Plan: "))
+        print("This part is where you will be adding the Guests")
+        numberOfGuests = int(input("Enter the number of people joining: "))
         print("There are is a total of: "+ str(numberOfGuests) + " guests.")
 
         for x in range(numberOfGuests):
-            guestName = input("Enter the name of the Guest no."+ str(x + 1) + ": ")
+            guestName = input("Enter the name of Guest no."+ str(x + 1) + ": ")
             guestAge = int(input("Enter the Guest's age: "))
             guestGender = input("Enter the Guest gender [Male/Female/Other]: ")
             self._guestList.append(Person(guestName,guestAge,guestGender))
@@ -36,7 +36,7 @@ class Guest:
         return gList
     
     
-    def removeGuest(self):
+    def removeUser(self):
         try:
             print("Remove a Guest -  \nPlease Select the Guest among the list below - ")
             x = 0
@@ -48,7 +48,7 @@ class Guest:
         except:
             print("Unexpected Error")
         
-    def showGuestList(self):
+    def showUserList(self):
         if(len(self._guestList) > 0):
             print("Current Guests:")
             x = 0
@@ -56,28 +56,28 @@ class Guest:
                 print("Guest ID."+ str(x) + " " + obj.fullName)
                 x += 1
         else:
-            print("There are Currently no Guests")
+            print("Currently no Guests")
     
-    def guestMain(self):
-        print("Welcome to the Companions Menu!")
+    def userMain(self):
+        print("***Fellow Visitors Menu***")
         if(len(self._guestList) == 0):
-            print("There are Currently no people going on the trip, time to add some people.")
-            self.addGuest()
-            self.showGuestList()
+            print("Currently no people going on the trip, add some.")
+            self.addUser()
+            self.showUserList()
         else:
             print("There are Currently " + str(self.listLength) + " guests")
-            gChoice = int(input("What would you like to do? 1.) Add more Guests 2.) Remove a Guest \nEnter Choice Here: "))
+            gChoice = int(input("\n1.) Add more Guests\n2.) Remove a Guest\nEnter Choice Here: "))
             if(gChoice == 1):
-                self.addGuest()
+                self.addUser()
             else:
-                self.removeGuest()
+                self.removeUser()
         
 
 if __name__ == "__main__":
     "MAIN METHOD TO TEST THE GUEST CLASS"
-    guestSystem = Guest()
+    guestSystem = User()
 
-    guestSystem.guestMain()
+    guestSystem.userMain()
 
         
 
